@@ -1,0 +1,25 @@
+{
+    "name": "jive-api-client",
+    "version": "0.0.1",
+    "description": "Api client to get jive data using jive v3 rest apis",
+    "main": "index.js",
+    "keywords": [
+        "jive-api",
+        "jive-sdk"
+    ],
+    "author": "Shilpa Kondawar <shilpa.kondawar@gmail.com>",
+
+    "dependencies": {
+        "q": "*",
+        "lodash": "*",
+        "parent-require": "^1.0.0"
+    },
+    "devDependencies": {
+        "mocha": "*",
+        "sinon": "*",
+        "should": "*",
+        "chai":"*",
+        "chai-as-promised":"*",
+        "sinon-promise":"*"
+    }
+}

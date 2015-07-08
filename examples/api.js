@@ -81,9 +81,17 @@ api.stream.deleteStream("https://jive.example.com/api/core/v3/streams/19151").th
     console.log(err);
 });
 
+//Create stream association with a group
+api.stream.createStreamAssociation("https://jive.example.com/api/core/v3/streams/1234/associations","https://jive.example.com/api/core/v3/places/17257").then(function (successRes) {
+    console.log("Successfully created association:", successRes);
+}, function (err) {
+    console.log(err);
+});
+
 //Generic request for calling apis
 api.request({url:"https://jive.example.com/api/core/v3/search/places?filter=search(%22test%22)", method:"GET"}).then(function (places) {
     console.log("Searched places:", places);
 }, function (err) {
     console.log(err);
 });
+

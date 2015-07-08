@@ -41,6 +41,7 @@ api.request({url:"https://jive.example.com/api/core/v3/search/places?filter=sear
    * getAssociatedGroups: Return all the associated group with specified stream URL
    * isPresent: Return if the stream exists with specified stream name for user,
    * changeEmailPreference: Change the email preference of stream
+   * createStreamAssociation: Associate the specified stream with specified placeURL
 
 * User
    * get: Returns the userData of specified userURL,

@@ -110,11 +110,28 @@ module.exports = function (request) {
         return deferred.promise;
     };
 
+    var createStreamAssociation = function (streamAssociationUrl, groupUrl) {
+        var deferred = Q.defer();
+        request({url: streamAssociationUrl,
+                "method": "POST",
+                "postBody": [ groupUrl ]
+            }
+        ).then(function (successResponse) {
+                logger.debug({fn: "createStreamAssociation", streamAssociationUrl: streamAssociationUrl,groupUrl: groupUrl, stage: "success handler"})
+                deferred.resolve(successResponse);
+            }, function (failureResponse) {
+                logger.error({fn: "createStreamAssociation", streamAssociationUrl: streamAssociationUrl,groupUrl: groupUrl, stage: "error handler", error:failureResponse});
+                deferred.reject(failureResponse);
+            });
+        return deferred.promise;
+    };
+
     return {
         create: create,
         deleteStream: deleteStream,
         getAssociatedGroups: getAssociatedGroups,
         isPresent: isPresent,
-        changeEmailPreference: changeEmailPreference
+        changeEmailPreference: changeEmailPreference,
+        createStreamAssociation: createStreamAssociation
     }
 };

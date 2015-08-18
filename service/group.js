@@ -73,10 +73,75 @@ module.exports = function (request) {
         return deferred.promise;
     }
 
+    var deleteGroup = function(groupUrl){
+        var deferred = Q.defer();
+        request({
+            url: groupUrl,
+            "method": "GET"
+        }).then(function () {
+            logger.info({fn: "deleteGroup", groupUrl: groupUrl, stage: "success_callback" });
+            deferred.resolve(true)
+        },function(failureResponse){
+            logger.error({fn: "deleteGroup", groupUrl: groupUrl, error: failureResponse, stage: "failure_callback"});
+            deferred.reject(failureResponse);
+        })
+        return deferred.promise;
+    }
+
+    var  getFollowerUserId = function (list) {
+        return _.map(list, function (e) {
+            return e.id
+        });
+    }
+
+    var getFollowers = function (url, list, callback) {
+        if (url) {
+            request({
+                    url: url,
+                    "method": "GET"
+                }).then(function (successResponse) {
+                    logger.info("got followers successfully",{fn: "getFollowersList", stage: "success_handler"})
+                    getFollowers(getPath(successResponse, "entity.links.next"), list.concat(getFollowerUserId(successResponse.entity.list)), callback);
+                }, function (failureResponse) {
+                    logger.error("getting followers failed",{fn: "getFollowersList", stage: "failure_handler"})
+                    return callback(failureResponse, null)
+                });
+        }
+        else
+            return  callback(null, list);
+    }
+
+    var  getMemberUserId = function (list) {
+        return _.map(list, function (e) {
+            return e.person.id
+        });
+    }
+
+    var getMembers = function (url, list, callback) {
+        if (url) {
+            request({
+                    url: url,
+                    "method": "GET"
+                }).then(function (successResponse) {
+                    logger.info("got members successfully",{fn: "getJiveGroup", stage: "success_handler"})
+                    getMembers(getPath(successResponse, "entity.links.next"), list.concat(getMemberUserId(successResponse.entity.list)), callback);
+                }, function (failureResponse)
+                {
+                    logger.error("getting members failed",{fn: "getJiveGroup",stage: "failure_handler", error: JSON.stringify(failureResponse)});
+                    return callback(failureResponse, null)
+                });
+        }
+        else
+            return  callback(null, list);
+    }
+
 
     return {
         get: get,
         getAllGroupsIDAndName: getAllGroupsIDAndName,
-        update: update
+        update: update,
+        deleteGroup: deleteGroup,
+        getFollowers: getFollowers,
+        getMembers: getMembers
     }
 };

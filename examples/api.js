@@ -7,6 +7,17 @@ api.group.get("https://jive.example.com/api/core/v3/places/17257").then(function
     console.log("Group Data", groupData);
 });
 
+//Delete group
+
+api.group.deleteGroup("https://jive.example.com/api/core/v3/places/17257").then(function (groupData) {
+    console.log("Group Data", groupData);
+});
+
+//Get followers of group
+
+api.group.getFollowers("https://jive.example.com/api/core/v3/places/17257").then(function (groupData) {
+    console.log("Group Data", groupData);
+});
 
 //Get all groups ID and name
 api.group.getAllGroupsIDAndName("https://jive.example.com/api/core/v3/places").then(function (groupData) {

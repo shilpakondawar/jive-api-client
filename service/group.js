@@ -77,7 +77,7 @@ module.exports = function (request) {
         var deferred = Q.defer();
         request({
             url: groupUrl,
-            "method": "GET"
+            "method": "DELETE"
         }).then(function () {
             logger.info({fn: "deleteGroup", groupUrl: groupUrl, stage: "success_callback" });
             deferred.resolve(true)

@@ -135,6 +135,21 @@ module.exports = function (request) {
             return  callback(null, list);
     }
 
+    var addMember = function (groupUrl, userUrl) {
+        var deferred = Q.defer();
+        request({
+            url: groupUrl,
+            "method": "POST",
+            "postBody": {"person": userUrl, "state": "member"}
+        }).then(function (response) {
+            logger.info({fn: "deleteGroup", groupUrl: groupUrl, stage: "success_callback" });
+            deferred.resolve(response)
+        },function(failureResponse){
+            logger.error({fn: "deleteGroup", groupUrl: groupUrl, error: failureResponse, stage: "failure_callback"});
+            deferred.reject(failureResponse);
+        })
+        return deferred.promise;
+    }
 
     return {
         get: get,
@@ -142,6 +157,7 @@ module.exports = function (request) {
         update: update,
         deleteGroup: deleteGroup,
         getFollowers: getFollowers,
-        getMembers: getMembers
+        getMembers: getMembers,
+        addMember: addMember
     }
 };

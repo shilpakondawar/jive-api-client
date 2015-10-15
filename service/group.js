@@ -12,7 +12,7 @@ module.exports = function (request) {
             url: groupApiUrl,
             method: "GET"
         }).then(function (successResponse) {
-                deferred.resolve(successResponse.entity)
+                deferred.resolve(successResponse)
             },
             function (failureResponse) {
                 logger.error({fn: "getGroupEmailID", groupUrl: groupApiUrl, error: failureResponse, stage: "failure_callback"});
